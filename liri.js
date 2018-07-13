@@ -1,11 +1,12 @@
+require('dotenv').config();
+var Twitter = require('twitter');
+
 var keys = require("./keys");
 var request = require("request");
 var fs = require('fs');
 
-require('dotenv').config();
-
 var Spotify = require('node-spotify-api');
-var Twitter = require('twitter');
+
 
 var firstAction = process.argv[2];
 var secondAction = process.argv[3];
@@ -28,14 +29,16 @@ switch (firstAction) {
         break;
 };
 
-function twitter(secondAction) {
-    var client = new Twitter(exports.twitter);
+function twitter() {
+    console.log("Function Twitter");
+    // console.log(secondAction);
+    var client = new Twitter(keys.twitter);
     var params = {
         screen_name: 'tttransporter',
         count: 20
     };
-
-    client.get('statuses/user_timeline', params, function (error, tweets, response) {
+    console.log(params);
+    client.get("statuses/user_timeline", params, function (error, tweets, response) {
         if (!error) {
             for (i = 0; i < tweets.length; i++) {
                 var date = tweets[i].created_at;
@@ -43,6 +46,7 @@ function twitter(secondAction) {
             }
         }
         else {
+            console.log("Error");
             console.log(error);
         }
     });
@@ -50,7 +54,7 @@ function twitter(secondAction) {
 }
 
 function spotify(secondAction) {
-    var spotify = new Spotify(exports.spotify);
+    var spotify = new Spotify(keys.spotify);
     if (!secondAction) {
         secondAction = "Together We Are";
     }
