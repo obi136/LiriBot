@@ -64,4 +64,4 @@ typings/
 
 node_modules
 .DS_Store
-.env
+process.env
